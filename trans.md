@@ -4,6 +4,14 @@
 **2022 年 3 月 25 日 | 标签：proximal-policy-optimization, reproducibility, reinforcement-learning, implementation-details, tutorial**  
 作者：Huang, Shengyi；Dossa, Rousslan Fernand Julien；Raffin, Antonin；Kanervisto, Anssi；Wang, Weixun
 
+> 译文说明：本文是原文的中文学习翻译与技术阅读笔记。维护原则是尽量保留原文结构、实现细节、实验脉络、代码引用和参考文献，不主动省略关键内容。原文中的图片、视频和 W&B 交互式实验面板已整理到 [media_index.md](media_index.md)，阅读时建议与原文页面同步对照。
+
+> 版权说明：原文、图片、视频和交互式面板归原作者及对应平台所有。本仓库仅用于学习与技术交流；如需正式引用，请引用原文。
+
+## 原文媒体对照
+
+原文包含多类非文本内容：开篇图片、三个 PPO 从零实现视频、Classic Control / Atari / MuJoCo / LSTM / MicroRTS / EnvPool / Procgen 等实验图，以及多个 W&B 交互式面板。为避免遗漏阅读上下文，完整媒体索引见 [media_index.md](media_index.md)。
+
 ---
 
 ## 引子
@@ -40,7 +48,9 @@ Jon 是一名研究生一年级的学生，对强化学习（RL）非常感兴�
 
 1. **代码谱系分析**：我们通过研究官方 PPO 实现（`openai/baselines` GitHub 仓库）的历史版本，来明确“复现官方 PPO”的含义。我们将看到 `openai/baselines` 里的代码经历过几次重构，因此它可能与原论文产生不同的结果。弄清楚哪个版本的官方实现值得深入研究是很重要的。
 2. **视频教程和单文件实现**：我们制作了如何在 PyTorch 中从头实现 PPO 的逐行讲解视频，并且在代码仓库中提供了单文件的代码示例，以尽可能提高可读性。这些实现包含了官方 PPO 中应对经典控制任务、Atari 游戏和 MuJoCo 任务的所有细节。视频如下所示：
-   - （此处原文插入了视频链接/预览）
+   - PPO 从零实现视频 1: https://www.youtube.com/embed/MEt6rrxH8W4
+   - PPO 从零实现视频 2: https://www.youtube.com/embed/05RMTj-2K_Y
+   - PPO 从零实现视频 3: https://www.youtube.com/embed/BvZvx7ENZBw
 3. **含参考链接的实现清单**：在我们重实现 PPO 的过程中，我们罗列了 37 项实现细节，并给出了对应的永久性链接到具体代码位置（在学术论文中很少做到），同时也指明了对应的文献出处。这 37 项细节包括：
    - 13 个核心实现细节
    - 9 个 Atari 专用实现细节
@@ -337,7 +347,7 @@ action = Categorical(policy_head(hidden)).sample()
 
 ---
 
-我们把上面前 12 条细节加上“分网”结构做进了一个 `ppo.py` 单文件实现，只有 322 行。然后改成共享网络，又做了一个 `ppo_shared.py`（317 行）。下图展示了它们的差异（略）。
+我们把上面前 12 条细节加上“分网”结构做进了一个 `ppo.py` 单文件实现，只有 322 行。然后改成共享网络，又做了一个 `ppo_shared.py`（317 行）。原文通过嵌入式 diff 展示了两个文件的差异；相关代码链接已整理在 [media_index.md](media_index.md)。
 
 在经典控制任务（如 CartPole 等）上的实验表明分网更容易收敛。当然，共网是官方 PPO 在 Atari 上的默认设置。因为在更复杂的环境里，共网也更节省计算量。
 
@@ -438,7 +448,7 @@ value = layer_init(Linear(512, 1), std=1)
 
 ---
 
-我们在 `ppo.py` 的基础上增加约 40 行代码，把以上 9 条 Atari 细节加进去，形成一个单文件版本 `ppo_atari.py`（339 行）。下图展示了二者 diff。
+我们在 `ppo.py` 的基础上增加约 40 行代码，把以上 9 条 Atari 细节加进去，形成一个单文件版本 `ppo_atari.py`（339 行）。原文通过嵌入式 diff 展示了两者差异；相关代码链接已整理在 [media_index.md](media_index.md)。
 
 然后使用官方超参（在 `baselines/ppo2/defaults.py` 里）：
 
@@ -678,7 +688,7 @@ PPO 要做的特殊处理就是：
 
 ## 实验结果
 
-如前文各节所示，我们的实现在各环境上都与官方版本非常吻合。在其他指标（比如策略损失、价值损失）上也吻合。可以点击查看一些我们用 Weights & Biases 做的可视化报表链接。
+如前文各节所示，我们的实现在各环境上都与官方版本非常吻合。在其他指标（比如策略损失、价值损失）上也吻合。原文提供了多个 Weights & Biases 交互式实验报表，Classic Control、Atari、MuJoCo、LSTM、MicroRTS、EnvPool 和 Procgen 等链接已整理在 [media_index.md](media_index.md)。
 
 ---
 
@@ -734,7 +744,7 @@ EnvPool 是个新项目，用 C++ 和线程池加速了 Atari 的环境模拟。
 1. **替代性的实现决策**：上文我们提到许多实现细节有些武断，或许可尝试不同变体。比如 Atari 的不同预处理管线 (Machado et al., 2018)，连续动作里不同的分布（Beta、全协方差 Gaussian、tanh squash 等），LSTM 初始化、或者分网时如何进一步分离价值等。  
 2. **把向量化架构应用到有经验回放的算法**：DQN、SAC 等方法多半用单环境和经验回放。是否能在多环境并行收集的基础上减少对回放的需求，或提高训练效率？  
 3. **价值函数优化的改进**：比如分离更新（Cobbe et al., 2021），或借鉴优先级经验回放 (Schaul et al.)。  
-4. 其他方向不再赘述。
+4. 还可以进一步研究与硬件加速、分布式采样、环境并行和任务特定先验有关的实现选择。
 
 ---
 

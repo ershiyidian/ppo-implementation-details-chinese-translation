@@ -1,38 +1,59 @@
 # PPO 实现细节中文翻译
 
-> **原文标题**: [The 37 Implementation Details of Proximal Policy Optimization][original-link]  
-> **原文链接**: <https://iclr-blog-track.github.io/2022/03/25/ppo-implementation-details/#:~:text=vectorized%20architecture>  
-> **原文作者**: [Huang, Shengyi](https://github.com/vwxyzjn) 等
+这是 ICLR Blog Track 文章 **The 37 Implementation Details of Proximal Policy Optimization** 的非官方中文学习翻译与阅读辅助仓库。
 
-## 简介
+## 原文信息
 
-这是对 **The 37 Implementation Details of Proximal Policy Optimization** 一文的非官方中文翻译，原文发布于 ICLR Blog Track。该文从多方面介绍了 PPO（Proximal Policy Optimization）算法的实现细节，涵盖 Atari、MuJoCo、LSTM、MultiDiscrete 动作空间等内容。
+- 原文标题：[The 37 Implementation Details of Proximal Policy Optimization][original]
+- 原文作者：Huang, Shengyi; Dossa, Rousslan Fernand Julien; Raffin, Antonin; Kanervisto, Anssi; Wang, Weixun
+- 发布时间：2022-03-25
+- 原文平台：ICLR Blog Track
+- 原文代码仓库：[vwxyzjn/ppo-implementation-details][code]
+- 原文实验记录：[Weights & Biases - ppo-details][wandb]
 
-- 原文版权归原作者所有，本仓库中仅提供个人学习用途的译文，若有侵权请联系删除。
-- 若想了解更多上下文或对原文中某些细节进行深入探讨，请参考[原文地址][original-link]。
-- 本译文可能存在理解或表述不足之处，欢迎在 Issue 中提出改进建议。
+## 仓库内容
 
-## 内容概览
+```text
+.
+├── README.md              # 仓库说明
+├── trans.md               # 中文译文与对照说明
+└── media_index.md         # 原文图片、视频和交互式实验面板索引
+```
 
-1. **为什么 PPO 难以复现**  
-2. **官方实现代码谱系分析**  
-3. **37 个实现细节的完整解读**  
-   - 核心部分 (13 个)  
-   - Atari 专用 (9 个)  
-   - MuJoCo 连续动作 (9 个)  
-   - LSTM (5 个)  
-   - MultiDiscrete (1 个)  
-4. **额外可能有用的 4 个细节**  
-5. **实验结果与对比**  
-6. **在 EnvPool 上的加速示例**  
-7. **总结与后续工作**  
+## 阅读入口
 
-## 免责声明
+- 中文译文：[trans.md](trans.md)
+- 原文媒体索引：[media_index.md](media_index.md)
+- 原文页面：[ICLR Blog Track][original]
 
-- 本仓库是[“The 37 Implementation Details of Proximal Policy Optimization”][original-link] 的**非官方中文翻译**，仅供学习参考。
-- 翻译内容可能与原文有出入，一切内容以原英文版为准。
-- 原文版权及归属权均为原作者所有。若原作者对本译文的公开有任何异议，请通过本仓库的 issue 或邮件联系我。
+## 翻译原则
 
----
+- 不省略原文中的关键论点、实现细节类别、实验结论和引用线索。
+- 对 PPO、GAE、VecEnv、MultiDiscrete、LSTM、EnvPool 等术语保持一致翻译。
+- 保留必要英文术语，避免为了中文流畅而牺牲技术准确性。
+- 将原文图片、视频和 W&B 交互面板作为外链索引列出，方便读者对照原始材料。
+- 对不确定或依赖原文上下文的内容，以原文为准。
 
-[original-link]: https://iclr-blog-track.github.io/2022/03/25/ppo-implementation-details/#:~:text=vectorized%20architecture
+## 版权与使用边界
+
+原文页面和其中的图片、视频、交互面板、代码链接等材料归原作者和对应平台所有。本仓库仅作为个人学习、课程阅读和技术理解用途维护，不声称拥有原文版权。
+
+由于原文所在站点保留版权，本仓库不会将原文页面的全部图片、视频或交互式内容复制到仓库内；相关材料以外链索引方式引用。若原作者或版权方认为本仓库内容不适合公开，请通过 Issue 联系处理。
+
+## 引用
+
+学术或正式场景请引用原文：
+
+```bibtex
+@inproceedings{huang2022the37,
+  author = {Huang, Shengyi and Dossa, Rousslan Fernand Julien and Raffin, Antonin and Kanervisto, Anssi and Wang, Weixun},
+  title = {The 37 Implementation Details of Proximal Policy Optimization},
+  booktitle = {ICLR Blog Track},
+  year = {2022},
+  url = {https://iclr-blog-track.github.io/2022/03/25/ppo-implementation-details/}
+}
+```
+
+[original]: https://iclr-blog-track.github.io/2022/03/25/ppo-implementation-details/
+[code]: https://github.com/vwxyzjn/ppo-implementation-details
+[wandb]: https://wandb.ai/vwxyzjn/ppo-details
